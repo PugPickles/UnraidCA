@@ -1,0 +1,542 @@
+navbar {
+    position: fixed;
+    right: 0;
+    top: 0;
+    background: var(--gray-light);
+    box-shadow: 0 0 10px var(--shadow-bg);
+    border-bottom-left-radius: 10px;
+    z-index: 1;
+}
+
+navbar * {
+    position: relative;
+    background-color: var(--white);
+    cursor: pointer;
+    width: 45px;
+    height: 45px;
+    mask-size: 45px;
+    -webkit-mask-size: 45px;
+    display: block;
+    margin: 10px;
+}
+
+navbar *:hover {
+    background-image: var(--gradient-blue);
+}
+
+settings_btn {
+    -webkit-mask-image: url(/appdata/icons/settings.svg);
+    mask-image: url(/appdata/icons/settings.svg);
+}
+
+api {
+    -webkit-mask-image: url(/appdata/icons/api.svg);
+    mask-image: url(/appdata/icons/api.svg);
+}
+
+sync {
+    -webkit-mask-image: url(/appdata/icons/sync.svg);
+    mask-image: url(/appdata/icons/sync.svg);
+}
+
+
+
+settings {
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: #181818e3;
+    z-index: 2;
+}
+
+settings_wrp {
+    position: absolute;
+    width: 440px;
+    height: 300px;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: -10%;
+    bottom: 0;
+    border-radius: 10px;
+    box-shadow: 0 0 10px var(--shadow-bg);
+}
+
+settings_wrp,
+settings_wrp * {
+    background-color: var(--gray-light);
+}
+
+
+
+exit_btn {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    background-color: var(--red) !important;
+    -webkit-mask-image: url(/appdata/icons/exit.svg);
+    mask-image: url(/appdata/icons/exit.svg);
+    width: 35px;
+    height: 35px;
+    mask-size: 35px;
+    -webkit-mask-size: 35px;
+    display: block;
+    cursor: pointer;
+}
+
+settings_menu {
+    position: absolute;
+    top: 0;
+    margin: auto;
+    left: 0;
+    right: 0;
+    width: fit-content;
+    height: fit-content;
+    background-color: var(--gray);
+    padding: 5px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+.settings_active {
+    background-image: var(--gradient-blue);
+}
+
+settings_pl,
+settings_set {
+    width: 35px;
+    height: 35px;
+    mask-size: 35px;
+    -webkit-mask-size: 35px;
+    display: inline-block;
+    background-color: var(--white);
+    cursor: pointer;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+settings_pl {
+    -webkit-mask-image: url(/appdata/icons/settings_pl.svg);
+    mask-image: url(/appdata/icons/settings_pl.svg);
+}
+
+settings_set {
+    -webkit-mask-image: url(/appdata/icons/settings_set.svg);
+    mask-image: url(/appdata/icons/settings_set.svg);
+}
+
+settings_pl_wrp,
+settings_set_wrp {
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    top: 60px;
+    bottom: 10px;
+}
+
+settings_pl_wrp {
+    display: block;
+}
+
+settings_set_wrp {
+    display: none;
+    text-align: center;
+}
+
+
+
+#add_pl_form {
+    position: absolute;
+    width: 100%;
+    margin: auto;
+    height: fit-content;
+}
+
+#add_pl_form input {
+    margin-bottom: 25px;
+}
+
+#link {
+    width: 420px;
+}
+
+stream_sel {
+    width: 100%;
+    display: block;
+    height: fit-content;
+    text-align: center;
+    margin-bottom: -20px;
+}
+
+#type {
+    border: 1px solid;
+    padding: 5px;
+    border-radius: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+    color: var(--hl);
+}
+
+#stream {
+    width: 50px;
+    color: var(--hl);
+}
+
+#stream_help {
+    background-color: var(--hl);
+    -webkit-mask-image: url(/appdata/icons/help.svg);
+    mask-image: url(/appdata/icons/help.svg);
+    width: 27px;
+    height: 27px;
+    mask-size: 27px;
+    -webkit-mask-size: 27px;
+    display: inline-block;
+    cursor: pointer;
+    margin-bottom: -10px;
+    margin-left: 5px;
+}
+
+add_pl_btn {
+    width: 100%;
+    display: block;
+    text-align: center;
+}
+
+#add_pl_form button {
+    margin-top: 15px;
+    width: fit-content;
+    border: 1px solid;
+    border-radius: 10px;
+    font-size: 20px;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    cursor: pointer;
+
+    border: solid 1px transparent;
+    background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), var(--gradient-blue);
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+    box-shadow: 2px 1000px 1px var(--gray-light) inset;
+}
+
+#add_pl_form button:hover {
+    box-shadow: none;
+    color: var(--gray-light);
+}
+
+add_pl_loader {
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    border-radius: 10px;
+}
+
+add_pl_loader {
+    background-color: #181818e3;
+}
+
+add_pl_loader .loader {
+    background-color: transparent;
+}
+
+
+
+#cron {
+    width: 150px;
+    text-align: center;
+}
+
+discord_icon {
+    width: 40px;
+    height: 30px;
+    mask-size: 40px;
+    -webkit-mask-size: 40px;
+    display: block;
+    background-image: var(--gradient-blue);
+    -webkit-mask-image: url(/appdata/icons/discord.svg);
+    mask-image: url(/appdata/icons/discord.svg);
+    margin: auto;
+    margin-top: 35px;
+}
+
+.webhook_sw {
+    width: 100px;
+    height: 28px;
+    margin: auto;
+    position: relative;
+    background-color: var(--gray);
+    border-radius: 50px;
+    box-shadow: 0 0 10px var(--shadow-bg);
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.webhook_sw label {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    position: absolute;
+    left: 4px;
+    top: 4px;
+    border-radius: 50px;
+}
+
+.webhook_sw label:after {
+    content: '';
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    background-color: var(--green);
+    opacity: 0;
+    border-radius: 50px;
+}
+
+.webhook_sw label:hover::after {
+    opacity: 0.3;
+}
+
+.webhook_sw input[type=checkbox] {
+    visibility: hidden;
+}
+
+.webhook_sw input[type=checkbox]:checked+label:after {
+    opacity: 1;
+}
+
+#webhook_status {
+    position: relative;
+    top: 3px;
+    background-color: var(--gray);
+}
+
+#webhook_url_view {
+    width: 100%;
+    overflow: scroll;
+    opacity: 0.5;
+    display: block;
+    font-size: 13px;
+}
+
+#webhook_url{
+    width: 100%;
+    text-align: center;
+    margin-top: 10px;
+}
+
+
+
+@keyframes setting_saves {
+    0% {
+        border-bottom: 1px solid var(--white);
+    }
+
+    50% {
+        border-bottom: 1px solid var(--red);
+    }
+
+    100% {
+        border-bottom: 1px solid var(--white);
+    }
+}
+
+.setting_saves {
+    animation: setting_saves 1s infinite;
+}
+
+@keyframes setting_saved {
+    0% {
+        border-bottom: 1px solid var(--white);
+    }
+
+    10% {
+        border-bottom: 1px solid var(--green);
+    }
+
+    90% {
+        border-bottom: 1px solid var(--green);
+    }
+
+    100% {
+        border-bottom: 1px solid var(--white);
+    }
+}
+
+.setting_saved {
+    animation: setting_saved 2s;
+}
+
+
+
+playlists {
+    position: absolute;
+    width: 75%;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    max-width: 800px;
+}
+
+
+
+no_pl {
+    position: absolute;
+    width: fit-content;
+    height: fit-content;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+empty_cloud {
+    display: block;
+    width: 90px;
+    height: 90px;
+    mask-size: 90px;
+    -webkit-mask-size: 90px;
+    background-image: var(--gradient-red);
+    -webkit-mask-image: url(/appdata/icons/empty_cloud.svg);
+    mask-image: url(/appdata/icons/empty_cloud.svg);
+    margin: auto;
+    margin-top: -90px;
+}
+
+no_pl p {
+    background: var(--gradient-red);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+}
+
+
+
+pl_wrp,
+pl_wrp * {
+    background-color: var(--gray-light);
+}
+
+@keyframes pl_wrp_fade_in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+pl_wrp {
+    opacity: 0;
+    display: block;
+    margin: 15px;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px var(--shadow-bg);
+    margin-top: 32px;
+    animation: pl_wrp_fade_in 0.5s forwards;
+}
+
+pl_wrp table {
+    width: 100%;
+}
+
+pl_wrp table:nth-child(4) {
+    width: fit-content;
+    margin: auto;
+    text-align: center;
+}
+
+pl_wrp table tr td:nth-child(1) {
+    width: 45px;
+}
+
+pl_wrp table tr td:nth-child(3),
+pl_wrp table tr td:nth-child(4) {
+    width: 35px;
+}
+
+pl_type_ico {
+    display: block;
+    width: 45px;
+    height: 45px;
+    mask-size: 45px;
+    -webkit-mask-size: 45px;
+}
+
+.type_mp3 {
+    background-image: var(--gradient-blue);
+    -webkit-mask-image: url(/appdata/icons/mp3.svg);
+    mask-image: url(/appdata/icons/mp3.svg);
+}
+
+.type_mp4 {
+    background-image: var(--gradient-red);
+    -webkit-mask-image: url(/appdata/icons/mp4.svg);
+    mask-image: url(/appdata/icons/mp4.svg);
+}
+
+.pl_title {
+    font-size: 20px;
+    font-weight: bold;
+    display: block;
+    text-align: center;
+}
+
+.pl_search,
+.pl_remove {
+    display: block;
+    width: 35px;
+    height: 35px;
+    mask-size: 35px;
+    -webkit-mask-size: 35px;
+    cursor: pointer;
+    float: right;
+}
+
+.pl_search {
+    background-color: var(--green);
+    -webkit-mask-image: url(/appdata/icons/search.svg);
+    mask-image: url(/appdata/icons/search.svg);
+}
+
+.pl_remove {
+    background-color: var(--red);
+    -webkit-mask-image: url(/appdata/icons/delete.svg);
+    mask-image: url(/appdata/icons/delete.svg);
+}
+
+.pl_description {
+    opacity: 0.7;
+}
+
+.pl_link_mp3 {
+    background: var(--gradient-blue);
+}
+
+.pl_link_mp4 {
+    background: var(--gradient-red);
+}
+
+.pl_link {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: bold;
+    display: block;
+}

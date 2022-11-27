@@ -1,0 +1,72 @@
+:root {
+    --white: #aaaaaa;
+    --gray: #181818;
+    --gray-light: #242424;
+    --red: #f83d3d;
+    --green: #3df87b;
+    --hl : #02f0fe;
+    --shadow-bg: #00000096;
+    --gradient-blue: linear-gradient(45deg, var(--hl), #4dadfe);
+    --gradient-red: linear-gradient(45deg, #fe4006, #fe4d4d);
+}
+
+/* quicksand-regular - latin */
+@font-face {
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 400;
+    src: url('/appdata/fonts/ubuntu-v20-latin-regular.eot');
+    /* IE9 Compat Modes */
+    src: local(''),
+        url('/appdata/fonts/ubuntu-v20-latin-regular.eot?#iefix') format('embedded-opentype'),
+        /* IE6-IE8 */
+        url('/appdata/fonts/ubuntu-v20-latin-regular.woff2') format('woff2'),
+        /* Super Modern Browsers */
+        url('/appdata/fonts/ubuntu-v20-latin-regular.woff') format('woff'),
+        /* Modern Browsers */
+        url('/appdata/fonts/ubuntu-v20-latin-regular.ttf') format('truetype'),
+        /* Safari, Android, iOS */
+        url('/appdata/fonts/ubuntu-v20-latin-regular.svg#Quicksand') format('svg');
+    /* Legacy iOS */
+}
+
+textarea:focus,
+input:focus {
+    outline: none;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+*:focus {
+    outline: none;
+}
+
+*::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+
+* {
+    color: var(--white);
+    background-color: var(--gray);
+    font-family: 'Ubuntu', sans-serif;
+    scrollbar-width: none;
+}
+
+input {
+    font-size: 15px;
+    box-sizing: border-box;
+    padding: 5px;
+    border: none;
+    border-bottom: 1px solid;
+    cursor: pointer;
+}

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title translate="no">YTSync | Inspect</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="darkreader-lock">
+
+    <link rel="icon" href="/appdata/icon.png">
+
+    <style>preloader {position: absolute;display: block;top: 0;left: 0;width: 100%;height: 100%;z-index: 9;}.loader {position: absolute;width: 40px;height: 40px;margin: auto;left: 0;right: 0;top: 0;bottom: 0;}.loader .circle {position: absolute;width: 38px;height: 38px;opacity: 0;transform: rotate(225deg);animation-iteration-count: infinite;animation-name: orbit;animation-duration: 5.5s;background-color: transparent;}.loader .circle:after {content: '';position: absolute;width: 5px;height: 5px;border-radius: 5px;background: #fff;}.loader .circle:nth-child(2) {animation-delay: 240ms;}.loader .circle:nth-child(3) {animation-delay: 480ms;}.loader .circle:nth-child(4) {animation-delay: 720ms;}.loader .circle:nth-child(5) {animation-delay: 960ms;}@keyframes orbit {0% {transform: rotate(225deg);opacity: 1;animation-timing-function: ease-out;}7% {transform: rotate(345deg);animation-timing-function: linear;}30% {transform: rotate(455deg);animation-timing-function: ease-in-out;}39% {transform: rotate(690deg);animation-timing-function: linear;}70% {transform: rotate(815deg);opacity: 1;animation-timing-function: ease-out;}75% {transform: rotate(945deg);animation-timing-function: ease-out;}76% {transform: rotate(945deg);opacity: 0;}100% {transform: rotate(945deg);opacity: 0;}}</style>
+    <link href="/appdata/main.css" rel="stylesheet">
+    <style>
+        vids {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-width: 800px;
+    margin: auto;
+    padding: 15px;
+}
+
+h1 {
+    margin-top: 0;
+    text-align: center;
+    background: var(--gradient-blue);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+vid_wrp,
+vid_wrp * {
+    background-color: var(--gray-light);
+}
+
+vid_wrp {
+    margin: 15px;
+    display: block;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px var(--shadow-bg);
+    margin-top: 32px;
+}
+
+table {
+    width: 100%;
+}
+
+table td:nth-child(1) {
+    width: 168px;
+}
+
+img {
+    height: 94px;
+    width: 168px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.title {
+    width: 100%;
+    font-size: 20px;
+    font-weight: bold;
+}
+    </style>
+</head>
+
+<body>
+    <noscript>
+        <noscript_wrp>
+            <noscript_wrp_inr>
+                <h1>JavaScript is required!</h1>
+                <p>Please disable your script blocker or add the page to the whitelist</p>
+            </noscript_wrp_inr>
+        </noscript_wrp>
+    </noscript>
+
+    <wrp>
+        <preloader>
+            <div class='loader'>
+                <div class='circle'></div>
+                <div class='circle'></div>
+                <div class='circle'></div>
+                <div class='circle'></div>
+                <div class='circle'></div>
+            </div>
+        </preloader>
+
+        <vids></vids>
+    </wrp>
+
+    <script src="/appdata/jquery.min.js"></script>
+    <script src="/appdata/api.js"></script>
+    <script>
+        let link = sessionStorage.getItem("inspect_pl");
+
+        if (link == null) {
+            window.alert("There is no link from the playlist to inspect");
+            $("preloader").remove();
+            window.close();
+
+        } else {
+            api.get_playlist(link, function(cb) {
+
+                $("vids").html(`<h1>${cb["title"]} [ ${cb["vids"]} ]</h1>`);
+
+                cb["data"].forEach(vid => {
+                    $("vids").append(`
+                    <vid_wrp>
+                        <table>
+                            <tr>
+                                <td>
+                                    <img src="${vid["c_img"]}">
+                                </td>
+                                <td>
+                                    <p class="title">${vid["title"]}</p>
+                                </td>
+                            </tr>
+                        </table>
+                        <p class="description">${vid["description"].replace(/(?:\r\n|\r|\n)/g, '<br>')}</p>
+                    </vid_wrp>
+                    `);
+                });
+
+                sessionStorage.removeItem("inspect_pl");
+                $("preloader").fadeOut(100);
+            });
+        }
+    </script>
+</body>
+
+</html>

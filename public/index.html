@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title translate="no">YTSync</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="darkreader-lock">
+
+    <link rel="icon" href="/appdata/icon.png">
+
+    <style>preloader {position: absolute;display: block;top: 0;left: 0;width: 100%;height: 100%;z-index: 9;}.loader {position: absolute;width: 40px;height: 40px;margin: auto;left: 0;right: 0;top: 0;bottom: 0;}.loader .circle {position: absolute;width: 38px;height: 38px;opacity: 0;transform: rotate(225deg);animation-iteration-count: infinite;animation-name: orbit;animation-duration: 5.5s;background-color: transparent;}.loader .circle:after {content: '';position: absolute;width: 5px;height: 5px;border-radius: 5px;background: #fff;}.loader .circle:nth-child(2) {animation-delay: 240ms;}.loader .circle:nth-child(3) {animation-delay: 480ms;}.loader .circle:nth-child(4) {animation-delay: 720ms;}.loader .circle:nth-child(5) {animation-delay: 960ms;}@keyframes orbit {0% {transform: rotate(225deg);opacity: 1;animation-timing-function: ease-out;}7% {transform: rotate(345deg);animation-timing-function: linear;}30% {transform: rotate(455deg);animation-timing-function: ease-in-out;}39% {transform: rotate(690deg);animation-timing-function: linear;}70% {transform: rotate(815deg);opacity: 1;animation-timing-function: ease-out;}75% {transform: rotate(945deg);animation-timing-function: ease-out;}76% {transform: rotate(945deg);opacity: 0;}100% {transform: rotate(945deg);opacity: 0;}}</style>
+    <link href="/appdata/main.css" rel="stylesheet">
+    <link href="/appdata/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <noscript>
+        <noscript_wrp>
+            <noscript_wrp_inr>
+                <h1>JavaScript is required!</h1>
+                <p>Please disable your script blocker or add the page to the whitelist</p>
+            </noscript_wrp_inr>
+        </noscript_wrp>
+    </noscript>
+
+    <preloader>
+        <div class='loader'>
+            <div class='circle'></div>
+            <div class='circle'></div>
+            <div class='circle'></div>
+            <div class='circle'></div>
+            <div class='circle'></div>
+        </div>
+    </preloader>
+
+    <navbar>
+        <settings_btn title="Settings" onclick="settings()"></settings_btn>
+        <api title="API" onclick="api_popup()"></api>
+        <sync title="Manual syncronization" onclick="sync_popup()"></sync>
+    </navbar>
+    
+    <settings>
+        <settings_wrp>
+            <exit_btn onclick="settings()"></exit_btn>
+
+            <settings_menu>
+                <settings_pl title="Add Playlist" class="settings_menu settings_active"></settings_pl>
+                <settings_set title="Options" class="settings_menu"></settings_set>
+            </settings_menu>
+
+            <settings_pl_wrp>
+                <form id="add_pl_form">
+                    <label for="link">Playlist</label>
+                    <input type="text" id="link" placeholder="https://www.youtube.com/playlist?list=..." required>
+                    <br>
+                    <stream_sel>
+                        <label for="type">Type</label>
+                        <select id="type">
+                            <option value="mp3">mp3</option>
+                            <option value="mp4">mp4</option>
+                        </select>
+                        <label for="stream">Stream</label>
+                        <input type="number" id="stream" value="140">
+                        <a href="https://pytube.io/en/latest/user/streams.html" target="_blank" id="stream_help"></a>
+                    </stream_sel>
+                    <br>
+                    <label for="path">Path</label>
+                    <input type="text" id="path" placeholder="/music" required>
+                    <br>
+                    <add_pl_btn>
+                        <button>Add</button>
+                    </add_pl_btn>
+                </form>
+            </settings_pl_wrp>
+
+            <settings_set_wrp>
+                <label for="cron">Cron job</label>
+                <input id="cron" type="text">
+
+                <discord_icon></discord_icon>
+
+                <div class="webhook_sw">
+                    <input type="checkbox" id="webhook_sw"/>
+                    <label for="webhook_sw"></label>
+                    <a id="webhook_status"></a>
+                </div>
+
+                <a id="webhook_url_view"></a>
+                <input type="text" placeholder="Webhook url" id="webhook_url">
+            </settings_set_wrp>
+
+            <add_pl_loader>
+                <div class='loader'>
+                    <div class='circle'></div>
+                    <div class='circle'></div>
+                    <div class='circle'></div>
+                    <div class='circle'></div>
+                    <div class='circle'></div>
+                </div>
+            </add_pl_loader>
+        </settings_wrp>
+    </settings>
+
+    <playlists></playlists>
+
+    <script src="/appdata/jquery.min.js"></script>
+    <script src="/appdata/api.js"></script>
+    <script src="/appdata/script.js"></script>
+</body>
+
+</html>

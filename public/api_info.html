@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title translate="no">YTSync | API</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="darkreader-lock">
+
+    <link rel="icon" href="/appdata/icon.png">
+
+    <link href="/appdata/main.css" rel="stylesheet">
+    <style>
+        wrp {
+            position: absolute;
+            width: fit-content;
+            margin: auto;
+            left: 0;
+            right: 0;
+            top: 0px;
+            bottom: 0;
+        }
+
+        api_wrp {
+            padding: 30px;
+            display: block;
+            margin: 20px;
+            box-shadow: 0 0 10px var(--shadow-bg);
+            border-radius: 10px;
+        }
+
+        api_wrp,
+        api_wrp * {
+            background-color: var(--gray-light);
+        }
+
+        api_wrp a {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .method {
+            font-size: 14px;
+            float: right;
+            padding: 5px;
+            border: 1px solid;
+            border-radius: 5px;
+            font-weight: normal;
+        }
+
+        .get {
+            color: var(--green);
+        }
+
+        .post {
+            color: var(--hl);
+        }
+
+        .path {
+            display: block;
+            width: fit-content;
+            margin: auto;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 10px;
+        }
+
+        pre,
+        code,
+        res_ok,
+        res_err {
+            background: var(--gray);
+        }
+
+        pre {
+            padding: 30px;
+            box-shadow: inset 0 0 10px var(--shadow-bg);
+        }
+
+        .req,
+        .res {
+            font-size: 16px;
+            font-weight: normal;
+            margin-top: 15px;
+            display: block;
+        }
+
+        res_ok {
+            color: var(--green);
+        }
+
+        res_err {
+            color: var(--red);
+        }
+    </style>
+</head>
+
+<body>
+    <noscript>
+        <noscript_wrp>
+            <noscript_wrp_inr>
+                <h1>JavaScript is required!</h1>
+                <p>Please disable your script blocker or add the page to the whitelist</p>
+            </noscript_wrp_inr>
+        </noscript_wrp>
+    </noscript>
+
+    <wrp>
+        <api_wrp>
+            <a>Get all data</a>
+            <a class="method get">GET</a>
+            <code class="path">/api/get/all</code>
+            <a class="res">Response</a>
+            <pre>
+                <code>
+<res_ok>OK: 200
+
+{
+    "cron": "*/15 * * * *",
+    "playlists": [
+        {
+            "title": "Dev_test",
+            "description": "dev test playlist, only 2 vid.",
+            "link": "https://www.youtube.com/playlist?list=...",
+            "type": "mp3",
+            "stream": "140",
+            "path": "/m"
+        },
+        {
+            "title": "pl 2",
+            "description": "",
+            "link": "https://www.youtube.com/playlist?list=...",
+            "type": "mp4",
+            "stream": "140",
+            "path": "/dir2"
+        }
+    ]
+}
+</res_ok>
+
+<res_err>Error: 500</res_err>
+                </code>
+            </pre>
+        </api_wrp>
+
+        <api_wrp>
+            <a>Get data from specific playlist</a>
+            <a class="method post">POST</a>
+            <code class="path">/api/get/playlist</code>
+            <a class="req">Request</a>
+            <pre>
+                <code>
+{
+    "link": "https://www.youtube.com/playlist?list=..."
+}
+                </code>
+            </pre>
+            <a class="res">Response</a>
+            <pre>
+                <code>
+<res_ok>OK: 200
+
+"title": "Playlist title",
+"vids": "2",
+"data": [
+    {
+        "title": "Video title 1",
+        "description": "Video description"
+        "c_img": "https://i.ytimg.com/vi/.../...jpg"
+    },
+    {
+        "title": "Video title 2",
+        "description": "Video description"
+        "c_img": "https://i.ytimg.com/vi/.../....jpg"
+    }
+]
+</res_ok>
+<res_err>Error: 500 / 403 (Missing link)</res_err>
+                </code>
+            </pre>
+        </api_wrp>
+
+        <api_wrp>
+            <a>Add playlist</a>
+            <a class="method post">POST</a>
+            <code class="path">/api/playlist/add</code>
+            <a class="req">Request</a>
+            <pre>
+                <code>
+{
+    "link": "https://www.youtube.com/playlist?list=...",
+    "type": "mp3",
+    "stream": "140",
+    "path": "/music",
+}
+                </code>
+            </pre>
+            <a class="res">Response</a>
+            <pre>
+                <code>
+<res_ok>OK: 200
+    
+{
+    "found_videos": "2",
+    "title": "Dev_test",
+    "description": "dev test playlist, only 2 vid."
+}
+</res_ok>
+
+<res_err>Error: 500 / 403 (Missing or incorrect data)</res_err>
+                </code>
+            </pre>
+        </api_wrp>
+
+        <api_wrp>
+            <a>Remove playlist</a>
+            <a class="method post">POST</a>
+            <code class="path">/api/playlist/remove</code>
+            <a class="req">Request</a>
+            <pre>
+                <code>
+{
+    "link": "https://www.youtube.com/playlist?list=..."
+}
+                </code>
+            </pre>
+            <a class="res">Response</a>
+            <pre>
+                <code>
+<res_ok>OK: 204</res_ok>
+
+<res_err>Error: 500</res_err>
+                </code>
+            </pre>
+        </api_wrp>
+
+        <api_wrp>
+            <a>Start sync</a>
+            <a class="method post">POST</a>
+            <code class="path">/api/playlist/sync</code>
+            <a class="res">Response</a>
+            <pre>
+                <code>
+<res_ok>OK: 200
+    
+---------- START SYNC ----------
+[1] | Playlist: https://www.youtube.com/playlist?list=... (2)
+[1] | Missing: Video 1 blablabla
+[1] | Missing: Video 2 Everything is relative
+[2] | Downloaded: /mp3/Video 1 blablabla.mp3
+[3] | Downloaded: /mp4/Video 2 Everything is relative.mp4
+---------- END SYNC ----------
+</res_ok>
+
+<res_err>Error: 500</res_err>
+                </code>
+            </pre>
+        </api_wrp>
+
+        <api_wrp>
+            <a>Change cron job</a>
+            <a class="method post">POST</a>
+            <code class="path">/api/cron/change</code>
+            <a class="req">Request</a>
+            <pre>
+                <code>
+{
+    "job": "*/15 * * * *"
+}
+                </code>
+            </pre>
+            <a class="res">Response</a>
+            <pre>
+                <code>
+<res_ok>OK: 204</res_ok>
+
+<res_err>Error: 500</res_err>
+                </code>
+            </pre>
+        </api_wrp>
+
+        <res_err>Error: 500</res_err>
+                </code>
+            </pre>
+        </api_wrp>
+
+        <api_wrp>
+            <a>Get Discord config</a>
+            <a class="method get">GET</a>
+            <code class="path">/api/discord/get</code>
+            <a class="res">Response</a>
+            <pre>
+                <code>
+<res_ok>OK: 204
+
+{
+    "on": true,
+    "webhookURL": "https://discord.com/api/webhooks/12345.../a1b2c3d4e5..."
+}    
+</res_ok>
+
+<res_err>Error: 500</res_err>
+                </code>
+            </pre>
+        </api_wrp>
+
+        <api_wrp>
+            <a>Change discord config</a>
+            <a class="method post">POST</a>
+            <code class="path">/api/discord/set</code>
+            <a class="req">Request</a>
+            <pre>
+                <code>
+{
+    "on": true/false, (or undefined for no change)
+    "webhookURL": "https://discord.com/..." (or undefined for no change)
+}
+                </code>
+            </pre>
+            <a class="res">Response</a>
+            <pre>
+                <code>
+<res_ok>OK: 204</res_ok>
+
+<res_err>Error: 500</res_err>
+                </code>
+            </pre>
+        </api_wrp>
+    </wrp>
+
+    <script src="/appdata/jquery.min.js"></script>
+    <script>
+        url = window.location.origin.replace(8095, 40123);
+
+        $("wrp api_wrp").each(function () {
+            let path = $(this).find(".path").html();
+
+            $(this).find(".path").html(url + path);
+        })
+    </script>
+</body>
+
+</html>
