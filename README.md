@@ -1,4 +1,6 @@
-# YTSync
+# YTSync (Beta)
+
+When larger playlist are downloaded it comes to problems, I take care of it as soon as possible
 
 The following data is required for the container:
 * Port for WebUI `8095`
