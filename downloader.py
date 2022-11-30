@@ -1,20 +1,19 @@
-import json, re, os, threading, sys
-from datetime import datetime
-from time import sleep
+import json, re, os, sys, multiprocessing
 from pytube import Playlist, YouTube
 
 
+def print_log(msg):
+    #thread_count = t.replace("-", " ").split(" ")
 
-def print_log(t, msg):
-    thread_count = t.replace("-", " ").split(" ")
-
-    print(f"[{thread_count[1]}] | {msg}")
+    #print(f"[{thread_count[1]}] | {msg}")
+    print(msg)
 
 
 
 def thread_end():
-    if threading.active_count() <= 2:
-                print("----------- END SYNC -----------")
+    print(multiprocessing.active_children())
+    #if threading.active_count() <= 2:
+    #            print("----------- END SYNC -----------")
 
 
 
@@ -24,13 +23,13 @@ def yt_download(link, type, path, vid_file, stream_id):
             # Download Video
             audio = YouTube(link).streams.get_by_itag(stream_id).download(path)           
             os.rename(audio, vid_file)
-            print_log(threading.current_thread().name, "Downloaded: " + vid_file.replace("/MEDIA_ROOT", ""))
+            print_log("Downloaded: " + vid_file.replace("/MEDIA_ROOT", ""))
 
         if type == "mp4":
             # Download Video
             video = YouTube(link).streams.get_by_itag(stream_id).download(path)
             os.rename(video, vid_file)
-            print_log(threading.current_thread().name, "Downloaded: " + vid_file.replace("/MEDIA_ROOT", ""))
+            print_log("Downloaded: " + vid_file.replace("/MEDIA_ROOT", ""))
 
         thread_end()
 
@@ -62,9 +61,6 @@ def go(link, type, path, stream_id):
             Is the playlist set to "Public" or "Unlisted"?
             """)
 
-        # NO MSG IF NO DATA
-        # print_log(threading.current_thread().name, "Playlist: " + link + " (" + str(len(pl)) + ")")
-
         # check if video has already been downloaded
         for vid in pl:
             vid_title = str(YouTube(vid).title)
@@ -76,9 +72,9 @@ def go(link, type, path, stream_id):
 
             # File does not exist, start download
             if not os.path.isfile(vid_file):
-                print_log(threading.current_thread().name, "Missing: " + vid_title)
+                print_log("Missing: " + vid_title)
 
-                threading.Thread(target=yt_download, args=(vid, type, path, vid_file, stream_id)).start()
+                multiprocessing.Process(target=yt_download, args=(vid, type, path, vid_file, stream_id)).start()
 
         thread_end()
 
@@ -92,7 +88,7 @@ if __name__ == "__main__":
         print("---------- START SYNC ----------")
 
         # load config
-        with open("config.json") as c:
+        with open("/CONFIG/config.json") as c:
             config = json.load(c)
 
         if len(config["playlists"]) == 0:
@@ -102,7 +98,7 @@ if __name__ == "__main__":
         # start check/download
         for pl in config["playlists"]:
             path = "/MEDIA_ROOT" + pl["path"]
-            threading.Thread(target=go, args=(pl["link"], pl["type"], path, pl["stream"])).start()
+            multiprocessing.Process(target=go, args=(pl["link"], pl["type"], path, pl["stream"])).start()
 
     except Exception as e:
         print('Error on line {}'.format(sys.exc_info()[-1].tb_lineno), type(e).__name__, e)

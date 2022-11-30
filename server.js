@@ -37,7 +37,8 @@ webui.use(function (req, res, next) {
 
 // print log
 function logger(msg) {
-    console.log(msg + "\n")
+    let timestamp = new Date().toLocaleString()
+    console.log(timestamp, " | ", msg, "\n")
 }
 
 
@@ -173,7 +174,7 @@ function cron_job(cron_job_s, job, cb) {
 // Get all playlists (init)
 api.get("/api/get/all", (req, res) => {
     try {
-        res.sendFile(__dirname + "/config.json")
+        res.send(JSON.parse(fs.readFileSync("/CONFIG/config.json")))
     } catch (e) {
         logger(e)
         res.status(500).send(e.toString())
@@ -204,7 +205,7 @@ api.post("/api/get/playlist", (req, res) => {
 })
 
 
-// Add playlist to config.json
+// Add playlist to /CONFIG/config.json
 api.post("/api/playlist/add", (req, res) => {
     let link = req.body.link
     let type = req.body.type
@@ -240,7 +241,7 @@ api.post("/api/playlist/add", (req, res) => {
         }
 
         try {
-            let config = JSON.parse(fs.readFileSync("config.json"))
+            let config = JSON.parse(fs.readFileSync("/CONFIG/config.json"))
 
             let playlists = config["playlists"]
 
@@ -259,7 +260,7 @@ api.post("/api/playlist/add", (req, res) => {
                 "path": path
             })
 
-            fs.writeFileSync("config.json", JSON.stringify(config))
+            fs.writeFileSync("/CONFIG/config.json", JSON.stringify(config))
 
             let msg = `
     Title: ${cb["msg"]["title"]}
@@ -287,7 +288,7 @@ api.post("/api/playlist/add", (req, res) => {
 // Remove playlist from config.json
 api.post("/api/playlist/remove", (req, res) => {
     try {
-        let config = JSON.parse(fs.readFileSync("config.json"))
+        let config = JSON.parse(fs.readFileSync("/CONFIG/config.json"))
 
         const del_index = config["playlists"].findIndex(pl => {
             return pl["link"] === req.body.link;
@@ -295,7 +296,7 @@ api.post("/api/playlist/remove", (req, res) => {
 
         config["playlists"].splice(del_index, 1)
 
-        fs.writeFileSync("config.json", JSON.stringify(config))
+        fs.writeFileSync("/CONFIG/config.json", JSON.stringify(config))
 
         logger("Delete playlist: " + req.body.link)
 
@@ -349,7 +350,7 @@ api.post("/api/playlist/sync", (req, res) => {
 // Change cron job
 api.post("/api/cron/change", (req, res) => {
     try {
-        let config = JSON.parse(fs.readFileSync("config.json"))
+        let config = JSON.parse(fs.readFileSync("/CONFIG/config.json"))
 
         logger(`Change cron job from [ ${config["cron"]} ] to [ ${req.body.job} ]`)
         discord_msg.sendMsg("fe4006", "Cron job changed",
@@ -364,7 +365,7 @@ api.post("/api/cron/change", (req, res) => {
                 return
             }
 
-            fs.writeFileSync("config.json", JSON.stringify(config))
+            fs.writeFileSync("/CONFIG/config.json", JSON.stringify(config))
 
             res.sendStatus(204)
         })
@@ -378,7 +379,7 @@ api.post("/api/cron/change", (req, res) => {
 // Get discord webhook config
 api.get("/api/discord/get", (req, res) => {
     try {
-        let config = JSON.parse(fs.readFileSync("discord_msg.json"))
+        let config = JSON.parse(fs.readFileSync("/CONFIG/discord_msg.json"))
 
         let webhookURL = config["webhookURL"].split("/")
 
@@ -415,7 +416,7 @@ api.get("/api/discord/get", (req, res) => {
 // Set discord webhook config
 api.post("/api/discord/set", (req, res) => {
     try {
-        let config = JSON.parse(fs.readFileSync("discord_msg.json"))
+        let config = JSON.parse(fs.readFileSync("/CONFIG/discord_msg.json"))
 
         let status = req.body.on
         let url = req.body.webhookURL
@@ -439,7 +440,7 @@ Changing webhook:
             config["webhookURL"] = url
         }
 
-        fs.writeFileSync("discord_msg.json", JSON.stringify(config))
+        fs.writeFileSync("/CONFIG/discord_msg.json", JSON.stringify(config))
 
         discord_msg.init(function(cb) {
             logger(cb["msg"])
@@ -530,7 +531,19 @@ api.listen(40123, () => {
 webui.listen(8095, () => {
     logger("Web listens to port: " + var_port_web)
 
-    let config = JSON.parse(fs.readFileSync("config.json"))
+    if (! fs.existsSync("/CONFIG/config.json")) {
+        logger("config.json missing, creating...")
+
+        fs.writeFileSync("/CONFIG/config.json", '{"cron":"0 */12 * * *","playlists":[]}')
+    }
+
+    if (! fs.existsSync("/CONFIG/discord_msg.json")) {
+        logger("discord_msg.json missing, creating...")
+
+        fs.writeFileSync("/CONFIG/discord_msg.json", '{"on":false,"webhookURL":""}')
+    }
+
+    let config = JSON.parse(fs.readFileSync("/CONFIG/config.json"))
 
     init_cron(config)
     
