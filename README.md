@@ -1,6 +1,4 @@
-# YTSync (Beta)
-
-When larger playlist are downloaded it comes to problems, I take care of it as soon as possible
+# YTSync
 
 The following data is required for the container:
 * Port for WebUI `8095`
@@ -12,6 +10,10 @@ ports can be freely specified with variables
 WEB_PORT (default = 8095)
 API_PORT (default = 40123)
 ```
+
+To save the config json's:
+
+`/CONFIG`
 
 For other ports, the command must look like this, for example:
 
