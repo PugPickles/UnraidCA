@@ -1,20 +1,6 @@
-import json, re, os, sys, multiprocessing
+import json, re, os, sys
+from multiprocessing import Process
 from pytube import Playlist, YouTube
-
-
-def print_log(msg):
-    #thread_count = t.replace("-", " ").split(" ")
-
-    #print(f"[{thread_count[1]}] | {msg}")
-    print(msg)
-
-
-
-def thread_end():
-    print(multiprocessing.active_children())
-    #if threading.active_count() <= 2:
-    #            print("----------- END SYNC -----------")
-
 
 
 def yt_download(link, type, path, vid_file, stream_id):
@@ -23,19 +9,16 @@ def yt_download(link, type, path, vid_file, stream_id):
             # Download Video
             audio = YouTube(link).streams.get_by_itag(stream_id).download(path)           
             os.rename(audio, vid_file)
-            print_log("Downloaded: " + vid_file.replace("/MEDIA_ROOT", ""))
+            print("Downloaded: " + vid_file.replace("/MEDIA_ROOT/", ""))
 
         if type == "mp4":
             # Download Video
             video = YouTube(link).streams.get_by_itag(stream_id).download(path)
             os.rename(video, vid_file)
-            print_log("Downloaded: " + vid_file.replace("/MEDIA_ROOT", ""))
-
-        thread_end()
+            print("Downloaded: " + vid_file.replace("/MEDIA_ROOT/", ""))
 
     except Exception as e:
         print('Error on line {}'.format(sys.exc_info()[-1].tb_lineno), type(e).__name__, e)
-
 
 
 def go(link, type, path, stream_id):
@@ -72,33 +55,24 @@ def go(link, type, path, stream_id):
 
             # File does not exist, start download
             if not os.path.isfile(vid_file):
-                print_log("Missing: " + vid_title)
+                print("Missing: " + vid_title)
 
-                multiprocessing.Process(target=yt_download, args=(vid, type, path, vid_file, stream_id)).start()
-
-        thread_end()
+                Process(target=yt_download, args=(vid, type, path, vid_file, stream_id)).start()
 
     except Exception as e:
         print('Error on line {}'.format(sys.exc_info()[-1].tb_lineno), type(e).__name__, e)
 
 
-
 if __name__ == "__main__":
     try:
-        print("---------- START SYNC ----------")
-
         # load config
         with open("/CONFIG/config.json") as c:
             config = json.load(c)
-
-        if len(config["playlists"]) == 0:
-            print("----------- END SYNC -----------")
-            exit()
         
         # start check/download
         for pl in config["playlists"]:
             path = "/MEDIA_ROOT" + pl["path"]
-            multiprocessing.Process(target=go, args=(pl["link"], pl["type"], path, pl["stream"])).start()
+            Process(target=go, args=(pl["link"], pl["type"], path, pl["stream"])).start()
 
     except Exception as e:
         print('Error on line {}'.format(sys.exc_info()[-1].tb_lineno), type(e).__name__, e)

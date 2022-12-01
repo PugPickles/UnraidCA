@@ -9,7 +9,7 @@ let webhClnt = undefined
 module.exports = {
     init(cb) {
         try {
-            config = JSON.parse(fs.readFileSync("discord_msg.json"))
+            config = JSON.parse(fs.readFileSync("/CONFIG/discord_msg.json"))
 
             if (config["on"] && config["webhookURL"] !== "") {
                 const webhookClient = new WebhookClient({ url: config["webhookURL"]});
@@ -48,7 +48,7 @@ module.exports = {
         webhClnt.send({
             content: "",
             username: "YTSync",
-            avatarURL: "https://raw.githubusercontent.com/PugPickles/YTSync/main/icon.png",
+            avatarURL: "https://raw.githubusercontent.com/PugPickles/UnraidCA/YTSync/icon.png",
             embeds: [embed],
         });
     }

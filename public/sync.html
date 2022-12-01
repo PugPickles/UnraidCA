@@ -19,6 +19,10 @@ wrp {
     left: 0;
 }
 
+h1 {
+    background: var(--gray-light);
+}
+
 table {
     width: 100%;
     text-align: center;
@@ -26,17 +30,6 @@ table {
 
 #log_table td:nth-child(3) {
     text-align: left;
-}
-
-.thread{
-    width: fit-content;
-    margin: auto;
-    font-weight: bold;
-    border: 1px solid;
-    padding: 5px;
-    border-radius: 10px;
-    width: 20px;
-    height: 20px;
 }
 
 .status_playlist {
@@ -100,6 +93,12 @@ raw_log{
     <script src="/appdata/api.js"></script>
     <script>
         api.sync(function(res) {
+            if (res == "") {
+                $("raw_log").html("<h1>Data are up to date</h1>");
+                $("preloader").fadeOut(100);
+                return;
+            }
+
             res = res.replace(/(?:\r\n|\r|\n)/g, "<br>");
 
             let formatted = res.split("<br>");
@@ -107,7 +106,6 @@ raw_log{
             $("log").html(`
             <table id="log_table">
                 <tr>
-                    <th>Thread</th>
                     <th>Status</th>
                     <th>Message</th>
                 </tr>
@@ -115,27 +113,16 @@ raw_log{
             `);
 
             formatted.forEach(entry => {
-                if (entry == "---------- START SYNC ----------" ||
-                entry == "----------- END SYNC -----------" || 
-                entry == "") {
-                    return;
-                }
-
-                entry = entry.split(" | ");
-                let thread = entry[0];
-                let msg = entry[1];
-
-                let status = msg.split(": ");
+                let status = entry.split(": ");
                 let status_txt = status[0]
                 let status_msg = status[1];
 
+                if (status_msg == undefined) {
+                    return;
+                }
+
                 $("#log_table").append(`
                 <tr>
-                    <td>
-                        <p class="thread">
-                            ${thread.replace(/[\[\]']+/g, "")}
-                        </p>
-                    </td>
                     <td>
                         <p class="status_txt status_${status_txt.toLowerCase()}">
                             ${status_txt}

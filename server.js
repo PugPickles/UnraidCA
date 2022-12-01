@@ -135,6 +135,8 @@ function cron_job(cron_job_s, job, cb) {
         cron_job_s = new CronJob(job, function () {
             const downloader = spawn('python3', ["downloader.py"]);
 
+            logger("Auto sync")
+
             let stderr = ""
             let stdout = ""
 
@@ -143,7 +145,7 @@ function cron_job(cron_job_s, job, cb) {
             });
 
             downloader.stdout.on('data', (data) => {
-                logger(data.toString())
+                console.log(data.toString())
                 stdout += data.toString()
             });
 
@@ -151,7 +153,7 @@ function cron_job(cron_job_s, job, cb) {
                 if (stderr !== "") {
                     logger(stderr)
                 } else {
-                    if (stdout !== "---------- START SYNC ----------\n----------- END SYNC -----------\n") {
+                    if (!stdout == "") {
                         discord_msg.sendMsg("02f0fe", "Auto sync", stdout)
                     }
                 }                
@@ -335,9 +337,12 @@ api.post("/api/playlist/sync", (req, res) => {
                 res.status(500).send(stderr)
                 return
             }
-
-            logger(log)
-            discord_msg.sendMsg("02f0fe", "Manual sync finished", log)
+            
+            if (!log == "") {
+                console.log(log)
+                discord_msg.sendMsg("02f0fe", "Manual sync finished", log)
+            }
+            
             res.send(log)
         });
     } catch (e) {
