@@ -15,6 +15,8 @@ Enter the following 2 commands in the game (as op):
 
 ---
 
+You can put the server icon (server-icon.png) in the `backupData` mount, it will be automatically copied to the root dir
+
 All settings are changed via environment variables
 
 ```
