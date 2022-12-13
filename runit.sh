@@ -1,10 +1,25 @@
 #!/bin/sh
+backupFiles=("config" "whitelist.json" "banned-ips.json" "banned-players.json")
+
 srv_jar=paper-$SRV_VERSION-$SRV_BUILD.jar
 
 printlog() {
     printf "$1\n"
 }
 
+# backup config files
+backup() {
+    printlog "[>] Backup config"
+    for data in "${backupFiles[@]}"
+        do
+            echo "  [>] $data"
+            cp -r $data "/srv/mc/backupData"
+        done
+    printlog "[*] done."
+}
+trap "backup" EXIT
+
+# create server.properties
 printlog "[>] Create config (server.properties)"
 echo "#Minecraft server properties
 #$(date)
@@ -67,14 +82,42 @@ max-world-size=$max_world_size
 " > server.properties
 printlog "[*] done."
 
+# create ops.json
+if ! [[ -z $MC_OP_UUID || -z $MC_OP_USER ]]; then
+    printlog "[>] include user $MC_OP_USER with uuid $MC_OP_UUID as op (level: $MC_OP_LEVEL)"
+    echo '[
+    {
+        "uuid": "'$MC_OP_UUID'",
+        "name": "'$MC_OP_USER'",
+        "level": '$MC_OP_LEVEL'
+    }
+    ]' > ops.json
+    printlog "[*] done."
+fi
+
+# check if backup data exist
+printlog "[>] Backup config"
+for data in "${backupFiles[@]}"
+    do
+        if test -f "/srv/mc/backupData/$data" || test -d "/srv/mc/backupData/$data"; then
+            printlog "  [>] $data"
+            cp -r "/srv/mc/backupData/$data" "/srv/mc"
+        fi
+    done
+    printlog "[*] done."
+
+# check if server version exist
 if test -f "$srv_jar"; then
     printlog "[>] Start server (Xms: $SRV_XMS | Xmx: $SRV_XMX)"
     java -Xms$SRV_XMS -Xmx$SRV_XMX -jar $srv_jar --nogui
 fi
 
+# download new version and start
 printlog "[>] Downloading... (Version: $SRV_VERSION | Build: $SRV_BUILD)"
 $(wget -q "https://api.papermc.io/v2/projects/paper/versions/$SRV_VERSION/builds/$SRV_BUILD/downloads/$srv_jar")
 printlog "[*] done."
 
 printlog "[>] Start server (Xms: $SRV_XMS | Xmx: $SRV_XMX)"
 java -Xms$SRV_XMS -Xmx$SRV_XMX -jar $srv_jar --nogui
+
+#bash -i

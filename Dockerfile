@@ -5,10 +5,11 @@ WORKDIR /srv/mc
 COPY . .
 
 
-VOLUME /srv/mc/plugins
-VOLUME /srv/mc/world
-VOLUME /srv/mc/world_nether
-VOLUME /srv/mc/world_the_end
+VOLUME  /srv/mc/plugins \
+        /srv/mc/backupData \
+        /srv/mc/world \
+        /srv/mc/world_nether \
+        /srv/mc/world_the_end
 
 
 ENV SRV_VERSION=1.19.2 \
@@ -16,6 +17,9 @@ ENV SRV_VERSION=1.19.2 \
     SRV_XMS=2G \
     SRV_XMX=2G
 
+ENV MC_OP_UUID= \
+    MC_OP_USER= \
+    MC_OP_LEVEL=1
 
 ENV enable_jmx_monitoring=false \
     rcon_port=25575 \
@@ -74,13 +78,11 @@ ENV enable_jmx_monitoring=false \
     max_world_size=29999984
 
 
-RUN apk add openjdk17 bash
-#RUN addgroup -S mcrunner && adduser -S mcrunner -G mcrunner && \
-#    chown -R mcrunner /srv/mc/srv
+RUN apk add openjdk17 bash nano
+RUN mkdir plugins world world_nether world_the_end
 
 
 EXPOSE ${server_port} ${query_port} ${rcon_port}
 
 
-#USER mcrunner
-CMD ["bash", "runit.sh"]
+ENTRYPOINT ["bash", "runit.sh"]
