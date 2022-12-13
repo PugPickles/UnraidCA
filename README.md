@@ -91,4 +91,6 @@ The volumes are
 /srv/mc/world
 /srv/mc/world_nether
 /srv/mc/world_the_end
+
+/srv/mc/backupData <- To save the following dir/files "config" "whitelist.json" "banned-ips.json" "banned-players.json"
 ```
