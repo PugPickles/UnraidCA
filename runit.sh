@@ -4,7 +4,7 @@ backupFiles=("config" "whitelist.json" "banned-ips.json" "banned-players.json")
 srv_jar=paper-$SRV_VERSION-$SRV_BUILD.jar
 
 printlog() {
-    printf "$1\n"
+    printf "$(date +"%T") | $1\n"
 }
 
 # backup config files
@@ -104,7 +104,14 @@ for data in "${backupFiles[@]}"
             cp -r "/srv/mc/backupData/$data" "/srv/mc"
         fi
     done
+printlog "[*] done."
+
+# copy srv ico if exist
+if test -f "/srv/mc/backupData/server-icon.png"; then
+    printlog "[>] server-icon.png discovered, copy to root dir..."
+    cp "/srv/mc/backupData/server-icon.png" "/srv/mc"
     printlog "[*] done."
+fi
 
 # check if server version exist
 if test -f "$srv_jar"; then
