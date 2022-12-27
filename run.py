@@ -77,8 +77,8 @@ def updateRecord(ip):
 while True:
     print("----- Start -----")
 
-    #checkToken()
-    #getRecord()
+    checkToken()
+    getRecord()
 
     try:
         print("[>] Get IPv4")
