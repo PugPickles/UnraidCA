@@ -64,8 +64,7 @@ def updateRecord(ip):
     r = requests.put(
         url=f"https://api.cloudflare.com/client/v4/zones/{zone_id}/dns_records/{record_id}",
         headers=headers,
-        json=data,
-        timeout=15
+        json=data
     )
 
     if r.status_code == 200:
@@ -78,12 +77,12 @@ def updateRecord(ip):
 while True:
     print("----- Start -----")
 
-    checkToken()
-    getRecord()
+    #checkToken()
+    #getRecord()
 
     try:
         print("[>] Get IPv4")
-        ip_v4 = requests.get("https://ip4.seeip.org", timeout=5).content.decode("utf-8")
+        ip_v4 = requests.get("https://ifconfig.me").content.decode("utf-8")
         print("  [*] ok")
 
         updateRecord(ip_v4)
