@@ -10,6 +10,7 @@ Before the first start the record must be set!
 
 `update_time`   = update in minutes (default 5 min.)
 
+`records`       = "A" or "A, AAAA" or "AAAA" (default "A, AAAA")
 
 
 ## Create token

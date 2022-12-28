@@ -7,7 +7,8 @@ ENV auth_email="" \
     auth_key="" \
     zone_id="" \
     domain="" \
-    update_time="5"
+    update_time="5" \
+    records="A, AAAA"
 
 
 RUN apk add python3 py3-pip
