@@ -1,8 +1,8 @@
 # PaperMC
 
-Lightweight alpine image (alpine:3.17) with freely configurable papermc server (default is 1.19.2, build: 280).
+Docker: https://hub.docker.com/r/pickl3s/papermc
 
-see: https://hub.docker.com/r/pickl3s/papermc
+Lightweight alpine image (alpine:3.17) with freely configurable papermc server (default is 1.19.2, build: 280).
 
 # WARNING
 If you have already built something and want to change settings
