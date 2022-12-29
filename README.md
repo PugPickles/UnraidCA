@@ -1,5 +1,3 @@
-Docker: https://hub.docker.com/r/pickl3s/cloudflare-ddns
-
 Before the first start the record must be set!
 
 `auth_email`    = account mail
@@ -13,6 +11,8 @@ Before the first start the record must be set!
 `update_time`   = update in minutes (default 5 min.)
 
 `records`       = "A" or "A, AAAA" or "AAAA" (default "A, AAAA")
+
+`proxied`       = "true" or "false" (default "true")
 
 
 ## Create token

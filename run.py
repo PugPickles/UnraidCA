@@ -7,6 +7,7 @@ zone_id = os.environ['zone_id']
 domain = os.environ['domain']
 update_time = int(os.environ['update_time']) * 60
 records = os.environ['records'].replace(" ", "").upper().split(",")
+proxied = os.environ['proxied'].lower() in ("true")
 
 
 record_id_v4 = ""
@@ -25,7 +26,7 @@ data = {
     "name": domain,
     "content": "",
     "ttl": 1,
-    "proxied": True,
+    "proxied": proxied,
     "comment": ""
 }
 

@@ -8,7 +8,8 @@ ENV auth_email="" \
     zone_id="" \
     domain="" \
     update_time="5" \
-    records="A, AAAA"
+    records="A, AAAA" \
+    proxied="true"
 
 
 RUN apk add python3 py3-pip
